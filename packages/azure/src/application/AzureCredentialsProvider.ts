@@ -4,7 +4,7 @@
 
 import {
   ClientCertificateCredential,
-  ClientSecretCredential,
+  ClientSecretCredential, DefaultAzureCredential,
   WorkloadIdentityCredential,
 } from '@azure/identity'
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager'
@@ -16,6 +16,7 @@ export default class AzureCredentialsProvider {
     | ClientCertificateCredential
     | ClientSecretCredential
     | WorkloadIdentityCredential
+    | DefaultAzureCredential
   > {
     const clientId = configLoader().AZURE.authentication.clientId
     const clientSecret = configLoader().AZURE.authentication.clientSecret
@@ -43,6 +44,8 @@ export default class AzureCredentialsProvider {
           clientId,
           certificatePath,
         )
+      case 'MANAGED_IDENTITY':
+        return new DefaultAzureCredential()
       default:
         return new ClientSecretCredential(tenantId, clientId, clientSecret)
     }
