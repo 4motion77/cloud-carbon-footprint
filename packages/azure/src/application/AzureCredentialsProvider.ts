@@ -4,7 +4,8 @@
 
 import {
   ClientCertificateCredential,
-  ClientSecretCredential, DefaultAzureCredential,
+  ClientSecretCredential,
+  DefaultAzureCredential,
   WorkloadIdentityCredential,
 } from '@azure/identity'
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager'
