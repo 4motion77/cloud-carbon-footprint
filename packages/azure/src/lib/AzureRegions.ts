@@ -102,7 +102,7 @@ export const AZURE_REGIONS = {
     name: 'switzerlandwest',
     options: ['switzerlandwest'],
   },
-  UK_SOUTH: { name: 'uksouth', options: ['uksouth', 'UKSOUTH'] },
+  UK_SOUTH: { name: 'uksouth', options: ['uksouth', 'UKSOUTH','UK South'] },
   UK_WEST: { name: 'ukwest', options: ['ukwest'] },
   EU_GERMANY: { name: 'germany', options: ['germany'] },
   EU_GERMANY_NORTH: { name: 'germanynorth', options: ['germanynorth'] },
@@ -138,7 +138,7 @@ export const AZURE_REGIONS = {
   US_EAST_STAGE: { name: 'eastusstage', options: ['eastusstage'] },
   US_EAST_2: {
     name: 'EastUS2',
-    options: ['EastUS2', 'useast2', 'US East 2', 'eastus2', 'EASTUS2'],
+    options: ['EastUS2', 'useast2', 'US East 2', 'eastus2', 'EASTUS2','East US 2'],
   },
   US_EAST_2_EUAP: { name: 'eastus2euap', options: ['eastus2euap'] },
   US_EAST_2_STAGE: { name: 'eastus2stage', options: ['eastus2stage'] },
