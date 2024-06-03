@@ -48,10 +48,12 @@ client:
     annotations: {}
 
   service:
-    type: ClusterIP
+    type: LoadBalancer
     port:
       name: http
       number: 80
+      containerPort: 8080
+      protocol: TCP
 
   ingress:
     enabled: false
@@ -128,6 +130,7 @@ api:
     port:
       name: http
       number: 80
+      protocol: TCP
 
   pdb:
     enabled: true

@@ -9,8 +9,8 @@ spec:
   type: {{ .Values.client.service.type }}
   ports:
     - port: {{ .Values.client.service.port.number }}
-      targetPort: http
-      protocol: TCP
+      targetPort: {{ .Values.client.service.port.name }}
+      protocol: {{ .Values.client.service.port.protocol }}
       name: {{ .Values.client.service.port.name }}
   selector:
     {{- include "cloud-carbon-footprint.selectorLabels" . | nindent 4 }}
@@ -27,8 +27,8 @@ spec:
   type: {{ .Values.api.service.type }}
   ports:
     - port: {{ .Values.api.service.port.number }}
-      targetPort: http
-      protocol: TCP
+      targetPort: {{ .Values.api.service.port.name }}
+      protocol: {{ .Values.api.service.port.protocol }}
       name: {{ .Values.api.service.port.name }}
   selector:
     {{- include "cloud-carbon-footprint.selectorLabels" . | nindent 4 }}
