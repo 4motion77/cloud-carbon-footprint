@@ -138,7 +138,7 @@ export const AZURE_REGIONS = {
   US_EAST_STAGE: { name: 'eastusstage', options: ['eastusstage'] },
   US_EAST_2: {
     name: 'EastUS2',
-    options: ['EastUS2', 'useast2', 'US East 2', 'eastus2', 'EASTUS2','East US 2'],
+    options: ['EastUS2', 'useast2', 'US East 2', 'eastus2', 'EASTUS2'],
   },
   US_EAST_2_EUAP: { name: 'eastus2euap', options: ['eastus2euap'] },
   US_EAST_2_STAGE: { name: 'eastus2stage', options: ['eastus2stage'] },
