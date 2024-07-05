@@ -75,7 +75,7 @@ helm install my-release .
 | `api.configmap`                          | Configuration map for the API                                                           | `{}`                                                                                     |
 | `api.deployment.replicaCount`            | Number of replicas for the API deployment                                               | `2`                                                                                      |
 | `api.deployment.image.repository`        | Docker image repository for the API                                                     | `docker.io/cloudcarbonfootprint/api`                                                     |
-| `api.deployment.image.tag`               | Docker image tag for the API                                                            | `release-2022-10-17@sha256:fbd781ea1b042f7fe29592d96e7d987c89400856efc7a90e1d9900584797e9ec` |
+| `api.deployment.image.tag`               | Docker image tag for the API                                                            | `release-2024-02-11` |
 | `api.deployment.image.pullPolicy`        | Image pull policy for the API                                                           | `IfNotPresent`                                                                           |
 | `api.deployment.imagePullSecrets`        | Secrets for pulling the API image                                                       | `[]`                                                                                     |
 | `api.deployment.securityContext`         | Security context for the API deployment                                                 | See below for details                                                                    |
