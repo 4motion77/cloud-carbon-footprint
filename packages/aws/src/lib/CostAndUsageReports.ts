@@ -194,8 +194,8 @@ export default class CostAndUsageReports {
         inputDataRow.usageType,
         inputDataRow.usageUnit,
         inputDataRow.vCpus != '' ? parseFloat(inputDataRow.vCpus) : null,
-        1,
-        1,
+        parseFloat(inputDataRow.usageAmount?.toString() || '1'),
+        parseFloat(inputDataRow.cost?.toString() || '1'),
         {},
       )
       const dateTime = new Date().toISOString()
@@ -221,8 +221,11 @@ export default class CostAndUsageReports {
           region: inputDataRow.region,
           usageType: inputDataRow.usageType,
           vCpus: inputDataRow.vCpus,
-          kilowattHours: footprintEstimate.kilowattHours,
-          co2e: footprintEstimate.co2e,
+          kilowattHours:
+            (footprintEstimate.kilowattHours || 0) /
+            costAndUsageReportRow.usageAmount,
+          co2e:
+            (footprintEstimate.co2e || 0) / costAndUsageReportRow.usageAmount,
         })
       }
     }
@@ -236,8 +239,9 @@ export default class CostAndUsageReports {
             region: inputDataRow.region,
             usageType: inputDataRow.usageType,
             vCpus: inputDataRow.vCpus,
-            kilowattHours: footprintEstimate.kilowattHours,
-            co2e: footprintEstimate.co2e,
+            kilowattHours:
+              (footprintEstimate.kilowattHours || 0) / inputDataRow.usageAmount,
+            co2e: (footprintEstimate.co2e || 0) / inputDataRow.usageAmount,
           })
       })
     }
