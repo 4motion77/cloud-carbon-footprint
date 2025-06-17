@@ -67,6 +67,9 @@ import BillingExportRow from './BillingExportRow'
 import { GCP_CLOUD_CONSTANTS, getGCPEmissionsFactors } from '../domain'
 import { GCP_REPLICATION_FACTORS_FOR_SERVICES } from './ReplicationFactors'
 import { GCP_MAPPED_REGIONS_TO_ELECTRICITY_MAPS_ZONES } from './GCPRegions'
+import { Json } from './Json'
+import { GoogleAuth } from 'google-auth-library'
+import SkuDatabase from './Sku'
 
 export default class BillingExportTable {
   private readonly tableName: string
@@ -91,16 +94,38 @@ export default class BillingExportTable {
     end: Date,
     grouping: GroupBy,
   ): Promise<EstimationResult[]> {
+    const useJson = false
+
     const gcpConfig = configLoader().GCP
     const tagNames = gcpConfig.RESOURCE_TAG_NAMES
-    const projects: AccountDetailsOrIdList = gcpConfig.projects
-    const usageRows = await this.getUsage(
-      start,
-      end,
-      grouping,
-      tagNames,
-      projects,
-    )
+
+    let usageRows: RowMetadata[]
+
+    if (useJson) {
+      const json = new Json('../../billing_2025_06_06.json', start, end)
+      usageRows = json.getUsage()
+
+      this.billingExportTableLogger.info(`json len: ${usageRows.length}`)
+
+      const token = await new GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/cloud-billing.readonly'],
+      }).getAccessToken()
+
+      const sku = json.getEntries()[0]
+      const skuDb = new SkuDatabase(token)
+      const candidates = await skuDb.getCandidates(
+        sku.service.id,
+        sku.sku.description,
+      )
+
+      console.log(candidates)
+      console.log(`Number of alternatives: ${candidates.length}`)
+    } else {
+      const projects: AccountDetailsOrIdList = gcpConfig.projects
+      usageRows = await this.getUsage(start, end, grouping, tagNames, projects)
+
+      this.billingExportTableLogger.info(`real len: ${usageRows.length}`)
+    }
 
     const results: MutableEstimationResult[] = []
     const unknownRows: BillingExportRow[] = []
