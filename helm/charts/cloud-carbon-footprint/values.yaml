@@ -7,7 +7,7 @@ client:
 
     image:
       repository: docker.io/cloudcarbonfootprint/client
-      tag: 'release-2022-10-17@sha256:2662253ad7589efa1eb2e8f84b55d2e3ff11eb4a218e1ff377ab31a0b8de763d'
+      tag: 'release-2024-02-11'
       pullPolicy: IfNotPresent
 
     imagePullSecrets: []
@@ -48,10 +48,12 @@ client:
     annotations: {}
 
   service:
-    type: ClusterIP
+    type: LoadBalancer
     port:
       name: http
       number: 80
+      containerPort: 8080
+      protocol: TCP
 
   ingress:
     enabled: false
@@ -83,7 +85,7 @@ api:
 
     image:
       repository: docker.io/cloudcarbonfootprint/api
-      tag: 'release-2022-10-17@sha256:fbd781ea1b042f7fe29592d96e7d987c89400856efc7a90e1d9900584797e9ec'
+      tag: 'release-2024-02-11'
       pullPolicy: IfNotPresent
 
     imagePullSecrets: []
@@ -128,6 +130,7 @@ api:
     port:
       name: http
       number: 80
+      protocol: TCP
 
   pdb:
     enabled: true
