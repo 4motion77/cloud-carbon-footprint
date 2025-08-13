@@ -36,7 +36,7 @@ describe('On Premise', () => {
     const mockEstimates: OnPremiseDataOutput[] = [
       {
         machineName: 'Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz',
-        memory: 130690,
+        memory: 0.00013069,
         machineType: 'server',
         startTime: new Date('2022-01-17T13:38:18Z'),
         endTime: new Date('2022-01-24T18:22:29.918423Z'),

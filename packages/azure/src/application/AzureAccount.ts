@@ -10,6 +10,7 @@ import {
   ClientCertificateCredential,
   ClientSecretCredential,
   WorkloadIdentityCredential,
+  DefaultAzureCredential,
 } from '@azure/identity'
 import { ConsumptionManagementClient } from '@azure/arm-consumption'
 import { AdvisorManagementClient } from '@azure/arm-advisor'
@@ -43,6 +44,7 @@ export default class AzureAccount extends CloudProviderAccount {
     | ClientCertificateCredential
     | ClientSecretCredential
     | WorkloadIdentityCredential
+    | DefaultAzureCredential
   private subscriptionClient: SubscriptionClient
   private logger: Logger
 

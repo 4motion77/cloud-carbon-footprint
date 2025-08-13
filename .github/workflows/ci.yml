@@ -27,15 +27,15 @@ jobs:
         node-version: [18.x, 20.x]
     name: Install ${{ matrix.node-version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: setup node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       # Cache every node_modules folder inside the monorepo
       - name: cache all node_modules
         id: cache-modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           # We use both yarn.lock and package.json as cache keys to ensure that changes to local monorepo packages bust the cache
@@ -45,7 +45,7 @@ jobs:
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: cache global yarn cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: steps.cache-modules.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
@@ -82,17 +82,17 @@ jobs:
         node-version: [18.x, 20.x]
     name: Build ${{ matrix.node-version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       # Cache every node_modules folder inside the monorepo
       - name: cache all node_modules
         id: cache-modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           # We use both yarn.lock and package.json as cache keys to ensure that changes to local monorepo packages bust the cache.
@@ -102,7 +102,7 @@ jobs:
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: cache global yarn cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: steps.cache-modules.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
@@ -134,9 +134,9 @@ jobs:
           yarn lerna run build:update
       - name: zip artifact
         run: zip dist-workspace.zip dist-workspace/* -r
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: dist-workspace
+          name: dist-workspace-${{ matrix.node-version}}
           path: dist-workspace.zip
   release:
     needs: build
@@ -145,16 +145,16 @@ jobs:
       CI: 'true'
       NODE_OPTIONS: --max-old-space-size=4096
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Beginning of yarn setup, keep in sync between all workflows, see ci.yml
       - name: use node.js 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           registry-url: https://registry.npmjs.org/ # Needed for auth
       - name: cache all node_modules
         id: cache-modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock', '**/package.json') }}
@@ -163,7 +163,7 @@ jobs:
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: cache global yarn cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: steps.cache-modules.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
@@ -274,10 +274,10 @@ jobs:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       MONGODB_CREDENTIALS: ${{ secrets.MONGODB_CREDENTIALS }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: dist-workspace
+          name: dist-workspace-20.x
       - name: unzip artifact for deployment
         run: unzip dist-workspace.zip
       - name: deploy-staging
@@ -359,10 +359,10 @@ jobs:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       MONGODB_CREDENTIALS: ${{ secrets.MONGODB_CREDENTIALS }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: dist-workspace
+          name: dist-workspace-20.x
       - name: unzip artifact for deployment
         run: unzip dist-workspace.zip
       - name: deploy-production
